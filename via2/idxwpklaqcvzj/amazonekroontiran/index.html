@@ -2,12 +2,225 @@
 	<!-- Hoi, je gaat hier niet iets vinden om de puzzel op te lossen. ga aan de slag!! - Bart -->
 	<head>
 		<title>VIA2 Puzzelmysterie!</title>
+		<style>
+			.codeContainer {
+				width: 80%;
+				word-wrap: break-word;
+			}
+			
+			.shiftcontainer {
+				height: 20px;
+			}
+			
+			#shiftnumber {
+				font-weight: bold;
+			}
+			
+			table {
+			  border: 1px solid black;
+			  margin-top: 10px;
+			  margin-bottom: 20px;
+			}
+			
+			
+			th {
+				font-weight: bold;
+				border: 1px solid black;
+				width: 25px;
+			}
+			
+			.line{
+				border: 1px solid black;
+				width: 100%
+			}
+			
+			#solution {
+				word-wrap: break-word;
+				margin-bottom: 50px;
+			}
+			
+		</style>
+		<script>
+			function calculateOverlap(){
+				let shift = document.getElementById("shiftnumber").value * 1;
+				if( shift >= 1 ){
+					let code = document.getElementById("code").textContent.split("");
+					
+					let overlap = 0;
+					for(let i = 0; i < code.length - shift; i++){
+						if(code[i] === code[i + shift]){
+							overlap++;
+						}
+					}
+					var line1 = "Er is een overlap van " + overlap + " letters.\n";
+					var line2 = "Dit is een overlap van " + Math.round(overlap/(code.length - shift)*100)+ " procent.";
+					alert(line1 + line2);
+					
+					let subset = document.getElementById("subset");
+					if(subset && shift >= 30){
+						subset.removeAttribute("hidden");
+					}
+				} else {
+					alert("De verschuiving was geen getal groter dan 0");
+				}
+			}
+			
+			function increment(){
+				let shift = document.getElementById("shiftnumber");
+				shift.value = shift.value*1 + 1;
+			}
+			
+			function decrement(){
+				let shift = document.getElementById("shiftnumber");
+				if( shift.value > 1 ){
+					shift.value = shift.value - 1;
+				}
+			}
+			
+			function countLetters(){
+				let letterNumber = document.getElementById("letterNumber").value * 1;
+				let subsetSize = document.getElementById("subsetSize").value * 1;
+				
+				
+				if(letterNumber > 0 && subsetSize >= letterNumber){
+					let code = document.getElementById("code").textContent.split("");
+					let alfabet = "abcdefghijklmnopqrstuvwxyz".split("");
+					
+					let counting = [];
+					for(var i = 0; i < alfabet.length; i++) {
+						counting[alfabet[i]] = 0;
+					}
+					
+					for(var j = letterNumber - 1; j < code.length; j += subsetSize){
+						counting[code[j]] += 1;
+					}
+					
+					for(var i = 0; i < alfabet.length; i++) {
+						document.getElementById("count" + alfabet[i]).textContent = counting[alfabet[i]];
+					}
+					
+					document.getElementById("counter").removeAttribute("hidden");
+					
+					let decrypt = document.getElementById("decrypt");
+					if(decrypt && subsetSize === letterNumber){
+						decrypt.removeAttribute("hidden");
+					}
+				}
+			}
+			
+			function decrypt(){
+				let key = document.getElementById("key").value.split("");
+				
+				if(key){
+					let alfabet = "abcdefghijklmnopqrstuvwxyz".split("");
+					let code = document.getElementById("code").textContent.split("");
+					let result = "";
+					
+					for(var i = 0; i < code.length; i++){
+						let shift = alfabet.indexOf(key[i % key.length]);
+						let letterPosition = alfabet.indexOf(code[i]);
+						
+						result += alfabet[(letterPosition - shift + alfabet.length) % alfabet.length];
+						
+					}
+					
+					let solDom = document.getElementById("solution");
+					solDom.textContent = result;
+					solDom.removeAttribute("hidden");
+				}
+			}
+		</script>
 	<head>
 	<body><center>
 		<h1>Het dier heeft je naar de goede plek gebracht!</h1>
-		<h2>Je was ook playfair te slim af!</h2>
-		<h2>Helaas voor nu een kleine straf.</h2>
-		<h2>Je moet wachten, Bart moet dit deel nog maken.</h2>
-		<h2>Volgende keer zal je het geheim zelf moeten kraken.</h2>
+		<h2>Je was ook playfair te slim af!<br/> Deze keer kom je er misschien niet zo makkelijk vanaf.</h2>
+		<h2>Deze code is versleuteld met een land, maar de oplossing ligt niet zo voor de hand.</h2>
+		<h2>De Italiaan probeert het je moeilijk te maken, deze code zal je zelf moeten kraken.</h2>
+		
+		<div class="codeContainer">
+			<h1 id="code">awcothsignjrflhivgmikzjillnipwzilljxkleetjsivywxlgyqcnhmcfsiovmxawcpculmgvnytsdiknjrilvzhgalgategvfecyuicwmmvimvbuqxjlbkxljpfyqiagwhgylrxynrgudmcxcmikcmswwhblalhfmitkmigwwzglzxbyrwyltmxlbacarizgnhovmxhfclqbligojrvgwrwwahggmghekmphbmxnjreprjxjbdwsriawcikulkxznmouwsblaeflvsytntcsmrawcmulmrijrionmxtdfecyuixbniguemlcdrkkoivgmiovmxuwaimlvigvriglvzxjbpgbbieawkfvmxwandqzbikcrwfhbikyniptmrlgoqcjpmgwrwfpmlxlteprzedww</h1>
+
+			<div class="shiftcontainer">Bereken de overlap na een shift van <button onclick="decrement()" > < </button> <input id="shiftnumber" size="2" value="1"/> <button onclick="increment()"> > </button></div>
+			<p><button onclick="calculateOverlap()">Bereken!</button></p>
+		</div>
+		
+		<div id="subset" hidden>
+			<div class="line"></div>
+			<h3>Bepaal per subset de letters!</h3>
+			<p>Tel de <input id="letterNumber" size="1" />e letter van iedere <input id="subsetSize" size="1" /> letters</p>
+			<button onclick="countLetters()">Tel de letters</button>
+			<div>
+				<table id="counter" hidden><thead>
+					  <tr>
+						<th>Letter:</th>
+						<th>A</th>
+						<th>B</th>
+						<th>C</th>
+						<th>D</th>
+						<th>E</th>
+						<th>F</th>
+						<th>G</th>
+						<th>H</th>
+						<th>I</th>
+						<th>J</th>
+						<th>K</th>
+						<th>L</th>
+						<th>M</th>
+						<th>N</th>
+						<th>O</th>
+						<th>P</th>
+						<th>Q</th>
+						<th>R</th>
+						<th>S</th>
+						<th>T</th>
+						<th>U</th>
+						<th>V</th>
+						<th>W</th>
+						<th>X</th>
+						<th>Y</th>
+						<th>Z</th>
+					  </tr>
+					</thead>
+					<tbody>
+					  <tr>
+						<td>Aantal:</td>
+						<td id="counta" ></td>
+						<td id="countb" ></td>
+						<td id="countc" ></td>
+						<td id="countd" ></td>
+						<td id="counte" ></td>
+						<td id="countf" ></td>
+						<td id="countg" ></td>
+						<td id="counth" ></td>
+						<td id="counti" ></td>
+						<td id="countj" ></td>
+						<td id="countk" ></td>
+						<td id="countl" ></td>
+						<td id="countm" ></td>
+						<td id="countn" ></td>
+						<td id="counto" ></td>
+						<td id="countp" ></td>
+						<td id="countq" ></td>
+						<td id="countr" ></td>
+						<td id="counts" ></td>
+						<td id="countt" ></td>
+						<td id="countu" ></td>
+						<td id="countv" ></td>
+						<td id="countw" ></td>
+						<td id="countx" ></td>
+						<td id="county" ></td>
+						<td id="countz" ></td>
+					  </tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		
+		<div id="decrypt" hidden>
+			<div class="line"></div>
+			<h3>Ontsleutel!!</h3>
+			<p>Met welk land is de code versleuteld? <input id="key" /> <button onclick="decrypt()">Ontsleutel!</button></p>
+			<textarea id="solution" rows="10" cols="50" hidden></textarea>
+		</div>
 	</center></body>
 </html>
