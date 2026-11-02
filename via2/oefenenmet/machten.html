@@ -22,8 +22,8 @@
 		for(var i = 1; i <= 20; i++){
 			let check = false;
 			while(!check){
-				document.getElementById('g'+i).innerHTML = Math.floor(Math.random() * 30 -10);
-				document.getElementById('e'+i).innerHTML = Math.floor(Math.random() * 8 -4);
+				document.getElementById('g'+i).innerHTML = Math.floor(Math.random() * 25 - 8);
+				document.getElementById('e'+i).innerHTML = Math.floor(Math.random() * 6 - 2);
 				check = !(document.getElementById('g'+i).innerHTML==0 && document.getElementById('e'+i).innerHTML < 0)
 			}
 		}
@@ -50,7 +50,7 @@
 <body>
 <div align="center" style="word-wrap: break-word">
 <h1>Oefenen met Machten</h1>
-<h2>rond af op 3 decimalen</h2>
+<h2>rond af op 3 decimalen, gebruik een punt (dus bijvoorbeeld 0.133)</h2>
 <table>
 <tr><td><span id="g1">test</span><sup id="e1">4</sup></td><td> = <input id="s1" type="text"/><button onclick="controleer(1)">Controleer</button></td><td width="40px"></td><td><span id="g2">test</span><sup id="e2">4</sup></td><td> = <input id="s2" type="text"/><button onclick="controleer(2)">Controleer</button></td></tr>
 <tr><td><span id="g3">test</span><sup id="e3">4</sup></td><td> = <input id="s3" type="text"/><button onclick="controleer(3)">Controleer</button></td><td width="40px"></td><td><span id="g4">test</span><sup id="e4">4</sup></td><td> = <input id="s4" type="text"/><button onclick="controleer(4)">Controleer</button></td></tr>
