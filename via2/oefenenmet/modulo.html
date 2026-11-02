@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="dn">
+<head>
+    <meta charset="UTF-8">
+    <title>VIA2 - Modulo</title>
+	<style>
+	body { 
+		font-size: 25px; 
+	}
+	input {
+		text-align:right;
+		width:100px;
+		font-size:24px;
+	}
+	button{
+		margin-left:10px;
+	}
+	</style>
+    <script>
+	window.onload = function () {
+	
+		for(var i = 1; i <= 20; i++){
+			document.getElementById('g'+i).innerHTML = Math.floor(Math.random() * 200 + 45);
+			document.getElementById('d'+i).innerHTML = Math.floor(Math.random() * 20 + 5);
+		}
+	};
+	var controleer = function (id){
+		var g = document.getElementById('g'+id).innerHTML
+		var d = document.getElementById('d'+id).innerHTML
+		var answer = document.getElementById('s'+id).value;
+		if(answer && g%d == answer) {
+			document.getElementById('g'+id).style.border = "5px solid green";
+		} else {
+			document.getElementById('g'+id).style.border = "3px solid red";
+			setTimeout(function(){resetWrong(id);}, 2000);
+		}
+	};
+	
+	var resetWrong = function(id){
+		document.getElementById('g'+id).style.border = "none";
+	}
+    </script>
+
+</head>
+<body>
+<div align="center" style="word-wrap: break-word">
+<h1>Oefenen met Modulo</h1>
+<table>
+<tr><td><span id="g1">test</span> </td><td> mod <span id="d1">4</span></td><td> = <input id="s1" type="text"/><button onclick="controleer(1)">Controleer</button></td><td width="40px"></td><td><span id="g2">test</span> </td><td> mod <span id="d2">4</span></td><td> = <input id="s2" type="text"/><button onclick="controleer(2)">Controleer</button></td></tr>
+<tr><td><span id="g3">test</span> </td><td> mod <span id="d3">4</span></td><td> = <input id="s3" type="text"/><button onclick="controleer(3)">Controleer</button></td><td width="40px"></td><td><span id="g4">test</span> </td><td> mod <span id="d4">4</span></td><td> = <input id="s4" type="text"/><button onclick="controleer(4)">Controleer</button></td></tr>
+<tr><td><span id="g5">test</span> </td><td> mod <span id="d5">4</span></td><td> = <input id="s5" type="text"/><button onclick="controleer(5)">Controleer</button></td><td width="40px"></td><td><span id="g6">test</span> </td><td> mod <span id="d6">4</span></td><td> = <input id="s6" type="text"/><button onclick="controleer(6)">Controleer</button></td></tr>
+<tr><td><span id="g7">test</span> </td><td> mod <span id="d7">4</span></td><td> = <input id="s7" type="text"/><button onclick="controleer(7)">Controleer</button></td><td width="40px"></td><td><span id="g8">test</span> </td><td> mod <span id="d8">4</span></td><td> = <input id="s8" type="text"/><button onclick="controleer(8)">Controleer</button></td></tr>
+<tr><td><span id="g9">test</span> </td><td> mod <span id="d9">4</span></td><td> = <input id="s9" type="text"/><button onclick="controleer(9)">Controleer</button></td><td width="40px"></td><td><span id="g10">test</span> </td><td> mod <span id="d10">4</span></td><td> = <input id="s10" type="text"/><button onclick="controleer(10)">Controleer</button></td></tr>
+<tr><td><span id="g11">test</span> </td><td> mod <span id="d11">4</span></td><td> = <input id="s11" type="text"/><button onclick="controleer(11)">Controleer</button></td><td width="40px"></td><td><span id="g12">test</span> </td><td> mod <span id="d12">4</span></td><td> = <input id="s12" type="text"/><button onclick="controleer(12)">Controleer</button></td></tr>
+<tr><td><span id="g13">test</span> </td><td> mod <span id="d13">4</span></td><td> = <input id="s13" type="text"/><button onclick="controleer(13)">Controleer</button></td><td width="40px"></td><td><span id="g14">test</span> </td><td> mod <span id="d14">4</span></td><td> = <input id="s14" type="text"/><button onclick="controleer(14)">Controleer</button></td></tr>
+<tr><td><span id="g15">test</span> </td><td> mod <span id="d15">4</span></td><td> = <input id="s15" type="text"/><button onclick="controleer(15)">Controleer</button></td><td width="40px"></td><td><span id="g16">test</span> </td><td> mod <span id="d16">4</span></td><td> = <input id="s16" type="text"/><button onclick="controleer(16)">Controleer</button></td></tr>
+<tr><td><span id="g17">test</span> </td><td> mod <span id="d17">4</span></td><td> = <input id="s17" type="text"/><button onclick="controleer(17)">Controleer</button></td><td width="40px"></td><td><span id="g18">test</span> </td><td> mod <span id="d18">4</span></td><td> = <input id="s18" type="text"/><button onclick="controleer(18)">Controleer</button></td></tr>
+<tr><td><span id="g19">test</span> </td><td> mod <span id="d19">4</span></td><td> = <input id="s19" type="text"/><button onclick="controleer(19)">Controleer</button></td><td width="40px"></td><td><span id="g20">test</span> </td><td> mod <span id="d20">4</span></td><td> = <input id="s20" type="text"/><button onclick="controleer(20)">Controleer</button></td></tr>
+</table>
+</div>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VIA2 - Machten</title>
+	<style>
+	body { 
+		font-size: 25px; 
+	}
+	input {
+		text-align:right;
+		width:100px;
+		font-size:24px;
+	}
+	button{
+		margin-left:10px;
+	}
+	</style>
+    <script>
+	window.onload = function () {
+	
+		for(var i = 1; i <= 20; i++){
+			let check = false;
+			while(!check){
+				document.getElementById('g'+i).innerHTML = Math.floor(Math.random() * 30 -10);
+				document.getElementById('e'+i).innerHTML = Math.floor(Math.random() * 8 -4);
+				check = !(document.getElementById('g'+i).innerHTML==0 && document.getElementById('e'+i).innerHTML < 0)
+			}
+		}
+	};
+	
+	var controleer = function (id){
+		var g = document.getElementById('g'+id).innerHTML
+		var e = document.getElementById('e'+id).innerHTML
+		var answer = document.getElementById('s'+id).value;
+		if(answer && Math.abs(g**e - answer) < 0.001) {
+			document.getElementById('g'+id).style.border = "5px solid green";
+		} else {
+			document.getElementById('g'+id).style.border = "3px solid red";
+			setTimeout(function(){resetWrong(id);}, 2000);
+		}
+	};
+	
+	var resetWrong = function(id){
+		document.getElementById('g'+id).style.border = "none";
+	}
+    </script>
+
+</head>
+<body>
+<div align="center" style="word-wrap: break-word">
+<h1>Oefenen met Machten</h1>
+<h2>rond af op 3 decimalen</h2>
+<table>
+<tr><td><span id="g1">test</span><sup id="e1">4</sup></td><td> = <input id="s1" type="text"/><button onclick="controleer(1)">Controleer</button></td><td width="40px"></td><td><span id="g2">test</span><sup id="e2">4</sup></td><td> = <input id="s2" type="text"/><button onclick="controleer(2)">Controleer</button></td></tr>
+<tr><td><span id="g3">test</span><sup id="e3">4</sup></td><td> = <input id="s3" type="text"/><button onclick="controleer(3)">Controleer</button></td><td width="40px"></td><td><span id="g4">test</span><sup id="e4">4</sup></td><td> = <input id="s4" type="text"/><button onclick="controleer(4)">Controleer</button></td></tr>
+<tr><td><span id="g5">test</span><sup id="e5">4</sup></td><td> = <input id="s5" type="text"/><button onclick="controleer(5)">Controleer</button></td><td width="40px"></td><td><span id="g6">test</span><sup id="e6">4</sup></td><td> = <input id="s6" type="text"/><button onclick="controleer(6)">Controleer</button></td></tr>
+<tr><td><span id="g7">test</span><sup id="e7">4</sup></td><td> = <input id="s7" type="text"/><button onclick="controleer(7)">Controleer</button></td><td width="40px"></td><td><span id="g8">test</span><sup id="e8">4</sup></td><td> = <input id="s8" type="text"/><button onclick="controleer(8)">Controleer</button></td></tr>
+<tr><td><span id="g9">test</span><sup id="e9">4</sup></td><td> = <input id="s9" type="text"/><button onclick="controleer(9)">Controleer</button></td><td width="40px"></td><td><span id="g10">test</span><sup id="e10">4</sup></td><td> = <input id="s10" type="text"/><button onclick="controleer(10)">Controleer</button></td></tr>
+<tr><td><span id="g11">test</span><sup id="e11">4</sup></td><td> = <input id="s11" type="text"/><button onclick="controleer(11)">Controleer</button></td><td width="40px"></td><td><span id="g12">test</span><sup id="e12">4</sup></td><td> = <input id="s12" type="text"/><button onclick="controleer(12)">Controleer</button></td></tr>
+<tr><td><span id="g13">test</span><sup id="e13">4</sup></td><td> = <input id="s13" type="text"/><button onclick="controleer(13)">Controleer</button></td><td width="40px"></td><td><span id="g14">test</span><sup id="e14">4</sup></td><td> = <input id="s14" type="text"/><button onclick="controleer(14)">Controleer</button></td></tr>
+<tr><td><span id="g15">test</span><sup id="e15">4</sup></td><td> = <input id="s15" type="text"/><button onclick="controleer(15)">Controleer</button></td><td width="40px"></td><td><span id="g16">test</span><sup id="e16">4</sup></td><td> = <input id="s16" type="text"/><button onclick="controleer(16)">Controleer</button></td></tr>
+<tr><td><span id="g17">test</span><sup id="e17">4</sup></td><td> = <input id="s17" type="text"/><button onclick="controleer(17)">Controleer</button></td><td width="40px"></td><td><span id="g18">test</span><sup id="e18">4</sup></td><td> = <input id="s18" type="text"/><button onclick="controleer(18)">Controleer</button></td></tr>
+<tr><td><span id="g19">test</span><sup id="e19">4</sup></td><td> = <input id="s19" type="text"/><button onclick="controleer(19)">Controleer</button></td><td width="40px"></td><td><span id="g20">test</span><sup id="e20">4</sup></td><td> = <input id="s20" type="text"/><button onclick="controleer(20)">Controleer</button></td></tr>
+</table>
+</div>
+</body>
+</html>
