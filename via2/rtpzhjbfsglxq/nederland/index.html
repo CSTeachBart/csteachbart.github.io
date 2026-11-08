@@ -2,12 +2,226 @@
 	<!-- Hoi, je gaat hier niet iets vinden om de puzzel op te lossen. ga aan de slag!! - Bart -->
 	<head>
 		<title>VIA2 Puzzelmysterie!</title>
+		<style>
+			#message {
+				margin: 20px;
+				word-wrap: break-word;
+			}
+			
+			#keycontainer {
+				border: 1px solid black;
+				width: 400px;
+				height: 200px;
+				word-wrap: break-word;
+			}
+			
+			#squaredMiddleHelp{
+				width: 500px;
+				border: 1px dashed black;
+				margin: 15px;
+				padding: 15px;
+			}
+			
+			#decryptButton {
+				margin: 15px;
+			}
+			
+			.head{
+				width: 210px;
+			}
+			
+			.input{ 
+				width: 70px;
+			}
+			
+			.button{
+				width: 70px;
+			}
+			
+			.output{
+				width: 100px;
+			}
+		</style>        
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js" integrity="sha256-/H4YS+7aYb9kJ5OKhFYPUjSJdrtV6AeyJOtTkw6X72o=" crossorigin="anonymous"></script>
+		<script src="secret.js"></script>
+		<script>
+			let alfabet = "abcdefghijklmnopqrstuvwxyz".split("");
+			var textkey = "";
+			
+			function squared(){
+				// round toevoegen
+				let n = document.getElementById("number");
+				if(n.value*1 > 0){
+					document.getElementById("value").textContent = n.value * n.value;
+					n.value = "";
+					document.getElementById("middle").removeAttribute("hidden");
+				} else {
+					alert("Oeps, dat was geen getal");
+				}
+			}
+			
+			function addToKey(){
+				let addition = document.getElementById("keynumber");
+				if(addition.value*1 > 0){
+					let currentKey = document.getElementById("keycontainer");
+					currentKey.textContent += addition.value;
+					addition.value = "";
+					document.getElementById("value").textContent = "";
+				} else {
+					alert("Oeps, dat was geen getal");
+				}
+			}
+			
+			function reset(){
+				if(confirm("Je gaat je sleutel verwijderen.\nWeet je dit zeker?")){
+					let currentKey = document.getElementById("keycontainer");
+					currentKey.textContent = "";
+					document.getElementById("value").textContent = "";
+				}
+			}
+			
+			function trim(){
+				let currentKey = document.getElementById("keycontainer");
+				currentKey.textContent = currentKey.textContent.substring(0, currentKey.textContent.length - 1);		
+			}
+			
+			function decrypt(){
+				let keyNumbers = document.getElementById("keycontainer").textContent;
+				
+				if(keyNumbers*1 > 0){
+					
+					let key = []
+					for(var i = 0; i < keyNumbers.length; i+=2){
+						key.push((keyNumbers.substring(i, i + 2))%alfabet.length);
+					}
+				
+					let code = document.getElementById("message").textContent.split("");
+					let result = "";
+					
+					for(var i = 0; i < code.length; i++){
+						let shift = key[i % key.length];
+						let letterPosition = alfabet.indexOf(code[i]);
+						
+						result += alfabet[(letterPosition - shift + alfabet.length) % alfabet.length];
+						
+					}
+					
+					let solDom = document.getElementById("solution");
+					solDom.textContent = result;
+					solDom.removeAttribute("hidden");
+				} else {
+					alert("Oeps, er gaat iets fout.\n Haal Bart er bij!");
+				}
+			}
+			
+			function encrypt(secret, key){
+				secret = secret.toString(CryptoJS.enc.Utf8);
+				result="";
+				for(var i = 0; i < secret.length; i++){
+					let shift = key[i % key.length];
+					let letterPosition = alfabet.indexOf(secret[i]);
+					
+					result += alfabet[(letterPosition + shift) % alfabet.length];
+				}
+				
+				document.getElementById("message").textContent = result;
+			}
+			
+			function squaredMiddleKeyGeneration(seed, length){
+					textkey="";
+					let number = seed;
+					let size = seed.toString().length;
+					console.log("Keylength: " + size);
+					while(textkey.length < length*2){
+						number = (number*number).toString();
+						if (number.length%2 == size%2){
+							number = "0" + number;
+						}
+						let dif = (number.length - size)/ 2;
+						number = number.substring(dif, size+dif);
+						textkey += number;
+					}
+					
+					let key = []
+					for(var i = 0; i < textkey.length; i+=2){
+						key.push((textkey.substring(i, i + 2))%alfabet.length);
+					}
+					
+					//Simple loop check: if last two numbers are the same, then add flag to repeat this process
+					if(number == textkey.substring(textkey.length-2*size, textkey.length-size)) {
+						console.log("repetition detected")
+						key.push(-1);
+					}
+					return key;
+				}
+			
+			function diffieHellman(){
+				let A = document.getElementById("A").value*1;
+				
+				if(A > 0 && A < p){
+					let key = [-1];
+					while(key[key.length-1] < 0){
+						let b = Math.floor(Math.random() * 13) + 42;
+						let B = Math.pow(g, b) % p;
+						let K = Math.pow(A, b) % p;
+						
+						document.getElementById("intro").textContent = "";
+						
+						document.getElementById("revealB").removeAttribute("hidden");
+						document.getElementById("B").textContent = B;
+						key = squaredMiddleKeyGeneration(K,secret.length);
+					}
+					
+					let actualSecret = CryptoJS.AES.decrypt(secret, "steenuilenzijndebeste");
+					encrypt(actualSecret,key);
+					let messageDiv = document.getElementById("message");
+					messageDiv.removeAttribute("hidden");
+					
+					document.getElementById("messageTitle").removeAttribute("hidden");
+					document.getElementById("squaredMiddleHelp").removeAttribute("hidden");
+				} else {
+					alert("Oeps, dat was geen goed getal.\n Bereken je A nog een keer of laat Bart het controleren.");
+				}
+			}
+		</script>
 	<head>
 	<body><center>
 		<h1>Je hebt de laatste locatie gevonden!</h1>
-		<h2>Vigeneire heb je gekraakt</h2>
-		<h2>Bart heeft dit gedeelte echter nog niet gemaakt.</h2>
-		<h2>Volgende week gaan we verder, ja dan!</h2>
-		<h2>werken we met een code die je niet kraken kan.</h2>
+		<div id="intro">
+			<h2>Viginiere heb je gekraakt.</h2>
+			<h2>Bart heeft nu voor jou nog één geheim gemaakt.</h2>
+			<h2>Dit geheim is echt niet te kraken.</h2>
+			<h2>Wil je het weten? <br/> Dan moet je eerst met de website een sleutel maken.</h2>
+			<p>De website weet het priemgetal dat je hebt. Bereken A, dan geeft de website een B terug.<br/>
+			Let wel op: Iedere keer dat je A doorgeeft of de website opnieuw laat, zal hij een nieuwe B berekenen.</p>
+		</div>
+		<div><strong>WAT IS JE A? <input size="5" id="A" /> <button onclick="diffieHellman()">Geef door</button></strong></div>
+		<br/>
+		<h2 id="revealB" hidden>DE WEBSITE ZEGT: B is <span id="B"></span></h2>
+		
+		<strong><h1 id="messageTitle" hidden>HET GEHEIME BERICHT IS:</h1></strong>
+		<h1 id="message" hidden>Boe! Nee, nog geen geheim bericht. Eerst een A doorgeven!</h1>
+		
+		<div id="squaredMiddleHelp" hidden>
+			<table>
+				<tr>
+					<td class="head">Bereken het kwadraat van:</td>
+					<td class="input"><input id="number" size="4"/></td>
+					<td class="button"> <button onclick="squared()">Bereken</button></td>
+					<td class="output"id="value"></td>
+				</tr>
+				<tr id="middle" hidden>
+					<td>Voeg getallen toe aan de sleutel:</td>
+					<td><input id="keynumber" size="4"/></td>
+					<td><button onclick="addToKey()">Voeg toe</button></td>
+					<td></td>
+				</tr>
+			</table>
+			<div id="keycontainer"></div>
+			<button onclick="reset()">Verwijder sleutel</button>      <button onclick="trim()">Verwijder laatste cijfer</button>
+			<br/>
+			<button id="decryptButton" onclick="decrypt()">Ontcijfer het geheim met deze sleutel</button>
+		</div>
+		<textarea id="solution" rows="5" cols="50" hidden></textarea>
 	</center></body>
 </html>
