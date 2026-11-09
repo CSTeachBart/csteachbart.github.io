@@ -162,9 +162,12 @@
 					let key = [-1];
 					while(key[key.length-1] < 0){
 						let b = Math.floor(Math.random() * 13) + 42;
-						let B = Math.pow(g, b) % p;
-						let K = Math.pow(A, b) % p;
 						
+						let B = (BigInt(g) ** BigInt(b)) % BigInt(p);
+						let K = (BigInt(A) ** BigInt(b)) % BigInt(p);
+						console.log(b);
+						console.log(B);
+						console.log(K);
 						document.getElementById("intro").textContent = "";
 						
 						document.getElementById("revealB").removeAttribute("hidden");
