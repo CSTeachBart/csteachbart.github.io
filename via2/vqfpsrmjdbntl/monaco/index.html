@@ -60,6 +60,15 @@
 				}
 			}
 			
+			function lastCheck(string){
+				let count = 1;
+				let value = string.slice(-2) % 26;
+				for(var i = 4; value == (string.slice(-1*i, -1*i + 2) % 26) && i < string.length; i+=2){
+					count += 1;
+				}
+				return count > 6;
+			}
+			
 			function addToKey(){
 				let addition = document.getElementById("keynumber");
 				if(addition.value*1 > 0){
@@ -148,7 +157,7 @@
 					}
 					
 					//Simple loop check: if last two numbers are the same, then add flag to repeat this process
-					if(number == textkey.substring(textkey.length-2*size, textkey.length-size)) {
+					if(lastCheck(textkey)) {
 						console.log("repetition detected")
 						key.push(-1);
 					}
@@ -165,9 +174,6 @@
 						
 						let B = (BigInt(g) ** BigInt(b)) % BigInt(p);
 						let K = (BigInt(A) ** BigInt(b)) % BigInt(p);
-						console.log(b);
-						console.log(B);
-						console.log(K);
 						document.getElementById("intro").textContent = "";
 						
 						document.getElementById("revealB").removeAttribute("hidden");
